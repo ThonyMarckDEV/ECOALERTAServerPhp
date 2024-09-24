@@ -1,18 +1,23 @@
 <?php
+date_default_timezone_set('America/Lima');
 // Incluir la conexión a la base de datos
 include '../conexion.php';
 
 $id_usuario = $_GET['id_usuario']; // Obtener el ID del usuario desde la solicitud
 
+// Obtener la fecha actual en formato YYYY-MM-DD
+$fecha_actual = date('Y-m-d'); // Corregido el formato de fecha
+
 // Seleccionar un anuncio que no haya sido visto por este usuario
 $sql = "SELECT a.id, a.titulo, a.mensaje 
-        FROM anuncios a 
-        LEFT JOIN anuncios_vistos av ON a.id = av.idAnuncio AND av.idUsuario = ? 
-        WHERE av.idAnuncio IS NULL 
-        ORDER BY a.fecha ASC LIMIT 1";
+            FROM anuncios a 
+            LEFT JOIN anuncios_vistos av ON a.id = av.idAnuncio AND av.idUsuario = ? 
+            WHERE av.idAnuncio IS NULL 
+            AND DATE(a.fecha) = ? 
+            ORDER BY a.fecha ASC LIMIT 1";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id_usuario);
+$stmt->bind_param("is", $id_usuario, $fecha_actual);
 $stmt->execute();
 $result = $stmt->get_result();
 
