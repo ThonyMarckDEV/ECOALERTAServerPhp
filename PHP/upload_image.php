@@ -2,6 +2,13 @@
 // Configura el directorio donde se almacenarán las imágenes
 $upload_dir = 'uploads/';
 
+// Incluir el archivo que contiene la clase UrlHelper
+require_once 'UrlHelper.php';  // Asegúrate de poner la ruta correcta al archivo
+
+// Crear una instancia de UrlHelper
+$urlHelper = new UrlHelper();
+
+
 // Verificar si la carpeta de destino existe, si no, crearla
 if (!is_dir($upload_dir)) {
     mkdir($upload_dir, 0777, true);
@@ -22,8 +29,12 @@ if ($_FILES['image']['error'] == 0) {
     
     // Mover el archivo temporal al directorio de destino
     if (move_uploaded_file($file_tmp, $file_path)) {
-        // URL de la imagen en el servidor
-        $image_url = 'https://driven-skylark-close.ngrok-free.app/PHP/' . $file_path;
+        
+        // Obtener la URL base desde UrlHelper
+        $base_url = $urlHelper->getBaseUrl();
+        
+        // Concatenar la URL base con el path del archivo
+        $image_url = $base_url . $file_path;
         
         // Devolver la URL de la imagen subida
         echo json_encode([
