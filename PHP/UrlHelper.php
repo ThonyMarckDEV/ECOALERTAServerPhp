@@ -1,6 +1,6 @@
 <?php
 class UrlHelper {
-    const BASE_URL = 'https://clear-simply-gazelle.ngrok-free.app/PHP/';
+    const BASE_URL = 'https://prayers-em-wanting-bugs.trycloudflare.com/PHP/';
 
     public function getBaseUrl() {
         return self::BASE_URL;

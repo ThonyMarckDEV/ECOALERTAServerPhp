@@ -4,7 +4,7 @@ include '../conexion.php';
 
 try {
     // Consulta para obtener los reportes
-    $sql = "SELECT idReporte, idUsuario, fecha, descripcion, imagen_url FROM reportes";  // Cambia "imagen" a "imagen_url"
+    $sql = "SELECT idReporte, idUsuario, fecha, descripcion,referencia, imagen_url FROM reportes";  // Cambia "imagen" a "imagen_url"
     $result = $conn->query($sql);
 
     $reportes = array();
@@ -17,6 +17,7 @@ try {
                 'idUsuario' => $row['idUsuario'],
                 'fecha' => $row['fecha'],
                 'descripcion' => $row['descripcion'],
+                'referencia' => $row['referencia'],
                 'imagen_url' => $row['imagen_url']  // Devuelve la URL de la imagen
             );
             array_push($reportes, $reporte);
