@@ -1,4 +1,4 @@
-<?php
+<?php 
 header('Content-Type: application/json');
 
 // Incluir el archivo de conexión
@@ -28,11 +28,17 @@ if ($result->num_rows > 0) {
         $update_stmt->bind_param("s", $username);
         $update_stmt->execute();
 
-        // Obtener el rol del usuario
+        // Obtener el rol y el id del usuario
         $rol = $user['rol'];
+        $idUsuario = $user['idUsuario'];
 
-        // Enviar el rol y el nombre de usuario como respuesta
-        echo json_encode(array("status" => "success", "rol" => $rol, "username" => $username));
+        // Enviar el rol, el idUsuario y el nombre de usuario como respuesta
+        echo json_encode(array(
+            "status" => "success", 
+            "rol" => $rol, 
+            "username" => $username,
+            "idUsuario" => $idUsuario
+        ));
     } else {
         // Enviar error si la contraseña es incorrecta
         echo json_encode(array("status" => "error", "message" => "Contraseña incorrecta"));
