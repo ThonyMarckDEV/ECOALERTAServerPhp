@@ -25,9 +25,14 @@ try {
         $stmt->execute();
         $result = $stmt->get_result()->fetch_assoc();
 
+       // Devolver solo el nombre del archivo, sin incluir la URL base
         if ($result) {
-            $perfilBase64 = base64_encode($result['perfil']);
-            echo json_encode(['status' => 'success', 'perfil' => 'data:image/png;base64,' . $perfilBase64]);
+            $perfilUrl = $result['perfil'];
+            if ($perfilUrl && !empty($perfilUrl)) {
+                echo json_encode(['status' => 'success', 'perfil' => $perfilUrl]); // Solo el nombre del archivo
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Imagen de perfil no disponible']);
+            }
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Usuario no encontrado']);
         }
@@ -41,4 +46,3 @@ try {
     $stmt->close();
     $conn->close();
 }
-?>
